@@ -70,7 +70,7 @@ function capturaDatos(){
         for (let i in data.data[id].members) {
             id_miembro= data.data[id].members[i].account_id
             nick = data.data[id].members[i].account_name
-            link_id = 'http://api.worldoftanks.eu/wot/account/info/?application_id=e6d6b9d34ae22c1094317b26ae69c5fd&language=es&extra='+GM10+'%2C+'+GM08+'%2C'+GM06+'&account_id='+id_miembro
+            link_id = 'https://api.worldoftanks.eu/wot/account/info/?application_id=e6d6b9d34ae22c1094317b26ae69c5fd&language=es&extra='+GM10+'%2C+'+GM08+'%2C'+GM06+'&account_id='+id_miembro
             miembros.push({
                 "nick" : nick,
                 "id" : id_miembro,
