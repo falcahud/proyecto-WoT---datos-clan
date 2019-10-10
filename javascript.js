@@ -51,6 +51,8 @@ var datosFin =[]
 var clanVector = []
 var tipoCapt = ""
 var clanLogo
+var datosExp = []
+var data = []
 
 
 window.onload = iniciar
@@ -800,9 +802,8 @@ function copiarCap(){
 function exportarCap(){
     
     alert("Debes usar 'Guardar como' para archivar la hoja Excel")
-    let datosExp = []
     let i=0
-    var data = []
+
 
     if (tipoCapt=="comparacion"){
         datosExp = leeDatos(5)
@@ -913,3 +914,52 @@ function s2ab(s) {
 	return buf;
 }
 
+//Generacion del CSV
+
+function exportarCSV(){
+
+    if (tipoCapt=="comparacion"){
+        datosExp = leeDatos(5)
+        let inicio = datosExp[0].nick
+        let fin = datosExp[0].batallas
+        datosExp.shift()
+        strIni ="6,"+gestor_archivos[inicio].f+','+gestor_archivos[inicio].h+','+gestor_archivos[inicio].coment+','+gestor_archivos[fin].f +','+gestor_archivos[fin].h+','+gestor_archivos[fin].coment+ "\r\n"
+
+    } else {
+        datosExp = leeDatos(capturaAbierta)
+        strIni ="3,"+ gestor_archivos[capturaAbierta].f +','+gestor_archivos[capturaAbierta].h+','+gestor_archivos[capturaAbierta].coment+ "\r\n"
+    }
+
+    let str = strIni+convertToCSV(datosExp)
+    let csvContent = "data:text/csv;charset=utf-8,"+str;
+    var encodedUri = encodeURI(csvContent);
+    var encodedUri = encodeURI(csvContent);
+    var link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "my_data.csv");
+    document.body.appendChild(link); // Required for FF
+    link.click(); 
+    borraCap()
+}
+
+function convertToCSV(objArray) {
+    const array = typeof objArray != "object" ? JSON.parse(objArray) : objArray;
+    let str = "";
+    for (let i = 0; i < array.length; i++) {
+        let line = "";
+        for (let index in array[i]) {
+        if (line != "") line += ",";
+            let objeto = array[i][index]
+            if (index=="batallas"){
+                let objGM = objeto.GM
+                let objAV = objeto.AV
+                let objSK = objeto.SK
+                line += objGM+','+objAV+','+objSK
+                } else {
+                line += array[i][index];
+                }
+        }
+        str += line + "\r\n";
+    }
+    return str;
+}
