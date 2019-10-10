@@ -62,18 +62,19 @@
           <p><button class="waves-effect waves-light btn" id="btn_capt" onclick="capturaDatos()">Capturar</button></p>
           </span>
         </li>
-        <li>
-          <div class="collapsible-header" onclick="menu(2)"><i class="material-icons">delete</i>Eliminar Captura</div>
-          <div class="collapsible-body"><span>Se eleminarán las capturas seleccionadas.
-          <p><a class="waves-effect waves-light btn" onclick="eliminaDatos()">Eliminar</a></p>
-          </span></div>
-        </li>
+        
         <li>
           <div class="collapsible-header" onclick="menu(3)"><i class="material-icons">search</i>Comparar Capturas</div>
           <div class="collapsible-body"><span>Se comparan los datos entre las dos capturas seleccionadas.
           <p>El resultado muestra las batallas jugadas por los miembros del clan en el periodo entre las dos capturas.</p>
           <p id="pocasCap" class="red-text text-darken-1"></p>
           <p><button class="waves-effect waves-light btn" id="btn_comp" onclick="comparaDatos()">Comparar</button></p>
+          </span></div>
+        </li>
+        <li>
+          <div class="collapsible-header" onclick="menu(2)"><i class="material-icons">delete</i>Eliminar Captura</div>
+          <div class="collapsible-body"><span>Se eleminarán las capturas seleccionadas.
+          <p><a class="waves-effect waves-light btn" onclick="eliminaDatos()">Eliminar</a></p>
           </span></div>
         </li>
         <li>
@@ -86,6 +87,23 @@
             <label class="active" for="nuevoJugador">Jugador</label>
           </div>
           <p><a class="waves-effect waves-light btn" onclick="nuevoMiembro()">Añadir</a></p>
+          </span></div>
+        </li>
+        <li>
+          <div class="collapsible-header" onclick="menu(6)"><i class="material-icons">import_export</i>Importar Datos</div>
+          <div class="collapsible-body"><span>Importar un fichero de tipo CSV generado anteriormente.
+            <form action="#">
+              <div class="file-field input-field">
+                <div class="waves-effect waves-light btn">
+                  <span>Archivo</span>
+                  <input type="file" id ="nombrearchivo" >
+                </div>
+                <div class="file-path-wrapper">
+                  <input class="file-path validate" type="text">
+                </div>
+              </div>
+            </form>
+
           </span></div>
         </li>
       </ul>

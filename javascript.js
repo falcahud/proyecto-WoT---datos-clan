@@ -9,6 +9,7 @@ var instances = M.Collapsible.init(elems, {onOpenStart: compruebaEspacio});
 
 });
 
+
 //variables
 
 var req = new XMLHttpRequest();
@@ -414,10 +415,6 @@ function iniciar(){
 
     clanVector = JSON.parse(localStorage.getItem('archClan'))
     if (clanVector!=null){
-        //let vectorProv = clanVector.pop()
-        //id = vectorProv[0].id
-        //clanTag = vectorProv[0].tag
-        //clanLogo = vectorProv[0].logo
         id = clanVector[0].id
         clanTag = clanVector[0].tag
         clanLogo = clanVector[0].logo
@@ -536,6 +533,11 @@ function menu(valor){
         }
         document.getElementById('barraProg').style.display = "none"
         compruebaEspacio()
+    }
+
+    if (menu_act == 6){
+        document.getElementById('nombrearchivo').addEventListener('change', archivo, false);
+
     }
 }
 
@@ -914,7 +916,7 @@ function s2ab(s) {
 	return buf;
 }
 
-//Generacion del CSV
+//Trabajos CSV
 
 function exportarCSV(){
 
@@ -963,3 +965,13 @@ function convertToCSV(objArray) {
     }
     return str;
 }
+
+
+  function archivo (evt){
+      console.log('archivo elegido')
+      var files = evt.target.files
+      var fileList = document.getElementById('nombrearchivo').value
+      console.log(files)
+
+  }
+  
