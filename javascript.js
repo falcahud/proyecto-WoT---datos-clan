@@ -720,6 +720,7 @@ function muestraCap(pos){
 
     if (pos == 5){
         datos = leeDatos(5)
+        document.getElementById('expcsv').style.display = "none"
         let inicio = datos[0].nick
         let fin = datos[0].batallas
         datos.shift()
@@ -727,6 +728,7 @@ function muestraCap(pos){
 
     } else {
         i = parseInt(gestor_archivos[pos].posDatos)
+        document.getElementById('expcsv').style.display = ""
         datos = leeDatos(i)   
         document.getElementById("encabezadoCaptura").innerHTML = "Captura: "+ gestor_archivos[pos].f +' '+gestor_archivos[pos].h+' - '+gestor_archivos[pos].coment 
     }
@@ -920,18 +922,8 @@ function s2ab(s) {
 
 function exportarCSV(){
 
-    if (tipoCapt=="comparacion"){
-        datosExp = leeDatos(5)
-        let inicio = datosExp[0].nick
-        let fin = datosExp[0].batallas
-        datosExp.shift()
-        strIni ="6,"+gestor_archivos[inicio].f+','+gestor_archivos[inicio].h+','+gestor_archivos[inicio].coment+','+gestor_archivos[fin].f +','+gestor_archivos[fin].h+','+gestor_archivos[fin].coment+ "\r\n"
-
-    } else {
-        datosExp = leeDatos(capturaAbierta)
-        strIni ="3,"+ gestor_archivos[capturaAbierta].f +','+gestor_archivos[capturaAbierta].h+','+gestor_archivos[capturaAbierta].coment+ "\r\n"
-    }
-
+    datosExp = leeDatos(capturaAbierta)
+    strIni ="3,"+ gestor_archivos[capturaAbierta].f +','+gestor_archivos[capturaAbierta].h+','+gestor_archivos[capturaAbierta].coment+ "\r\n"
     let str = strIni+convertToCSV(datosExp)
     let csvContent = "data:text/csv;charset=utf-8,"+str;
     var encodedUri = encodeURI(csvContent);
