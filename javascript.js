@@ -373,10 +373,14 @@ function compruebaEspacio(){
     if (posicion == 9){
         document.getElementById('btn_capt').disabled = true
         document.getElementById('lleno').innerHTML = 'El almacen de capturas está lleno.'
+        document.getElementById('llenoimp').innerHTML = 'El almacen de capturas está lleno.'
+        document.getElementById('btnimp').disabled = true
     } else {
         if (id!=null){
         document.getElementById('btn_capt').disabled = false
         document.getElementById('lleno').innerHTML = ''
+        document.getElementById('llenoimp').innerHTML = ''
+        document.getElementById('btnimp').disabled = false
         }
     }
 }
@@ -436,6 +440,7 @@ function menu(valor){
     if(valor != menu_act){menu_act = valor} else {menu_act = 0}
 
     if (menu_act == 0){
+        
         for (i=0;i<5;i++){
             let index = "chk"+i
             let lupaIndex = "lupa"+i
@@ -537,7 +542,7 @@ function menu(valor){
 
     if (menu_act == 6){
         document.getElementById('nombrearchivo').addEventListener('change', archivo, false);
-
+        compruebaEspacio()
     }
 }
 
@@ -923,7 +928,7 @@ function s2ab(s) {
 function exportarCSV(){
 
     datosExp = leeDatos(capturaAbierta)
-    strIni ="3,"+ gestor_archivos[capturaAbierta].f +','+gestor_archivos[capturaAbierta].h+','+gestor_archivos[capturaAbierta].coment+ "\r\n"
+    strIni =gestor_archivos[capturaAbierta].f +','+gestor_archivos[capturaAbierta].h+','+gestor_archivos[capturaAbierta].coment+ "\r\n"
     let str = strIni+convertToCSV(datosExp)
     let csvContent = "data:text/csv;charset=utf-8,"+str;
     var encodedUri = encodeURI(csvContent);
@@ -960,10 +965,97 @@ function convertToCSV(objArray) {
 
 
   function archivo (evt){
-      console.log('archivo elegido')
       var files = evt.target.files
       var fileList = document.getElementById('nombrearchivo').value
-      console.log(files)
+      var reader = new FileReader()
+      reader.onload = function (event){
+        var contents = event.target.result;
+        csvJson(contents)
+      }
 
+      reader.readAsText(files[0]);
   }
-  
+
+  function csvJson (csv){
+
+    var lines=csv.split("\r\n");
+    var headers=lines[1].split(",");
+    leeGestor()
+    compruebaEspacio()
+    let titulo = lines[0].split(",");
+    let comentario = titulo[2]
+    let fecha = titulo[0]
+    let hora = titulo[1]
+    let datosImp = []
+    console.log(fecha,hora,comentario)
+    buscaPosArchDatos()
+
+    for(var i=1;i<lines.length-1;i++){
+        var currentline=lines[i].split(",");
+        let GM,AV,SK,id,nick
+        console.log(currentline)
+        for(var j=0;j<headers.length;j++){
+            if (j==0){id = parseInt(currentline[j])}
+            if (j==1){nick = currentline[j]}
+            if (j==2){GM = parseInt(currentline[j])}
+            if (j==3){AV = parseInt(currentline[j])}
+            if (j==4){SK = parseInt(currentline[j])}
+        }
+        let batallas = {'GM': GM, 'AV':AV, 'SK' : SK}
+        datosImp.push({
+            "id" : id,
+            "nick" : nick,
+            'batallas' : batallas
+        })
+    }
+    let posHueco = ordenaFechas(fecha,hora)
+    let nuevoGestor = huecoGestor(posHueco)
+    if (nuevoGestor !=9){
+        nuevoGestor[posHueco].f = fecha
+        nuevoGestor[posHueco].h = hora
+        nuevoGestor[posHueco].coment = comentario
+        nuevoGestor[posHueco].ocup = 1
+        nuevoGestor[posHueco].posDatos = posArchDatos
+    }
+    gestor_archivos = nuevoGestor
+    datos_clan.length = 0
+    datos_clan = datosImp
+    grabaGestor()
+    grabaDatos(posArchDatos)
+    borraTabla()
+    rellenaDatos()
+  }
+
+function ordenaFechas(fechaText,horaText){
+    var fechaComp = fechaDate(fechaText,horaText)
+    for (let i=0;i<5;i++){
+        if (gestor_archivos[i].ocup == 1){
+            let fecha = gestor_archivos[i].f
+            let hora = gestor_archivos[i].h
+            let fechaGestor = fechaDate(fecha,hora)
+            if (fechaComp<=fechaGestor){
+                return i
+            }
+        }
+    }
+}
+
+function fechaDate(textfecha,texthora){
+    var myDate = textfecha.split('/');
+    var myHour = texthora.split(':');
+    return new Date(myDate[2], myDate[1] - 1, myDate[0],myHour[0],myHour[1]);
+}
+
+function huecoGestor(pos){
+    leeGestor()
+    let posLibre = sitioCaptura()
+    if (posLibre !=9){
+        let copiaGestor = [{ocup:0,f:0,h:0,coment:"",posDatos:9},{ocup:0,f:0,h:0,coment:"",posDatos:9},{ocup:0,f:0,h:0,coment:"",posDatos:9},{ocup:0,f:0,h:0,coment:"",posDatos:9},{ocup:0,f:0,h:0,coment:"",posDatos:9}]
+        for (k=posLibre;k>pos;k--){
+            copiaGestor[k]=gestor_archivos[k-1]
+        }
+        return copiaGestor
+    } else {
+        return 9
+    }
+}

@@ -92,6 +92,7 @@
         <li>
           <div class="collapsible-header" onclick="menu(6)"><i class="material-icons">import_export</i>Importar Datos</div>
           <div class="collapsible-body"><span>Importar un fichero de tipo CSV generado anteriormente.
+            <p id="llenoimp" class="red-text text-darken-1"></p>
             <form action="#">
               <div class="file-field input-field">
                 <div class="waves-effect waves-light btn">
@@ -99,7 +100,7 @@
                   <input type="file" id ="nombrearchivo" >
                 </div>
                 <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text">
+                  <input  id="btnimp" class="file-path validate" type="text">
                 </div>
               </div>
             </form>
