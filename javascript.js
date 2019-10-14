@@ -1,4 +1,3 @@
-
 //Materialize
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -6,17 +5,13 @@ M.AutoInit();
 var instances = M.updateTextFields();
 var elems = document.querySelectorAll('.collapsible');
 var instances = M.Collapsible.init(elems, {onOpenStart: compruebaEspacio});
-
 });
-
 
 //variables
 
 var req = new XMLHttpRequest();
-//var id = 500038506;
 var id
 var clanTag
-//var id = 500025989
 var menu_act = 0;
 var miembros = [];
 var datos_clan = [];
@@ -55,9 +50,7 @@ var clanLogo
 var datosExp = []
 var data = []
 
-
 window.onload = iniciar
-
 
 function capturaDatos(){
 
@@ -138,6 +131,8 @@ function eliminaDatos(){
 }
 
 function comparaDatos(){
+
+
     
     if (activos<2){
         document.getElementById('pocasCap').innerHTML='Selecciona dos capturas para poder comparar'
@@ -155,14 +150,16 @@ function comparaDatos(){
         i = parseInt(gestor_archivos[comparaInicio].posDatos)
         j = parseInt(gestor_archivos[comparaFin].posDatos)
 
+        console.log(i,j)
+
         datos_clan.length = 0
         datosInicio = JSON.parse(localStorage.getItem('datos'+i))
         datos_clan.length = 0
         datosFin = JSON.parse(localStorage.getItem('datos'+j))
         datosComp.length = 0
         datosComp.push({
-            "nick" : i,
-            "batallas" : j
+            "nick" : comparaInicio,
+            "batallas" : comparaFin
         })
 
         for (key in datosInicio){
@@ -192,6 +189,8 @@ function comparaDatos(){
             'batallas' : battlesComp
         })
         }
+
+        console.log(datosComp)
 
         objSerialized = JSON.stringify(datosComp);
         localStorage.setItem('datos5', objSerialized);
@@ -550,7 +549,6 @@ function desplaza(vect){
 
     let col = 0
     let col_aux = 0
-    let long = gestor_archivos.length-1
     let gestor_aux = [{ocup:0,f:0,h:0,coment:"",posDatos:9},{ocup:0,f:0,h:0,coment:"",posDatos:9},{ocup:0,f:0,h:0,coment:"",posDatos:9},{ocup:0,f:0,h:0,coment:"",posDatos:9},{ocup:0,f:0,coment:"",posDatos:9}]
 
     for(const i of vect){
@@ -728,8 +726,8 @@ function muestraCap(pos){
         document.getElementById('expcsv').style.display = "none"
         let inicio = datos[0].nick
         let fin = datos[0].batallas
-        datos.shift()
         document.getElementById("encabezadoCaptura").innerHTML = "Datos entre la captura "+ gestor_archivos[inicio].f +' '+gestor_archivos[inicio].h+' - '+gestor_archivos[inicio].coment + " y la captura "+ gestor_archivos[fin].f +' '+gestor_archivos[fin].h+' - '+gestor_archivos[fin].coment
+        datos.shift()
 
     } else {
         i = parseInt(gestor_archivos[pos].posDatos)
@@ -843,18 +841,12 @@ function exportarCap(){
     ];
     ws['!merges']=[{s:{c:0,r:0},e:{c:3,r:0}}]
 
-    function fitToColumn(arrayOfArray) {
-        // get maximum character of each column
-        return arrayOfArray[0].map((a, i) => ({ wch: Math.max(...arrayOfArray.map(a2 => a2[i].toString().length)) }));
-    }
-       
     /* add worksheet to workbook */
     ws_name = "Captura"
     wb.SheetNames.push(ws_name);
     wb.Sheets[ws_name] = ws;
     var wbout = XLSX.write(wb, {bookType:'xlsx', bookSST:true, type: 'binary'});
     saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), "sample2.xlsx")
-
 }
  
 function Workbook() {
@@ -1038,6 +1030,8 @@ function ordenaFechas(fechaText,horaText){
             }
         }
     }
+
+    return 0
 }
 
 function fechaDate(textfecha,texthora){
