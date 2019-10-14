@@ -223,7 +223,7 @@ function nuevoMiembro(){
         if (newData.meta.count>0){
             
             newId = newData.data[0].account_id
-            let newLink = 'http://api.worldoftanks.eu/wot/account/info/?application_id=e6d6b9d34ae22c1094317b26ae69c5fd&language=es&extra='+GM10+'%2C+'+GM08+'%2C'+GM06+'&account_id='+newId
+            let newLink = 'https://api.worldoftanks.eu/wot/account/info/?application_id=e6d6b9d34ae22c1094317b26ae69c5fd&language=es&extra='+GM10+'%2C+'+GM08+'%2C'+GM06+'&account_id='+newId
             var req3 = new XMLHttpRequest();
             req3.open('GET',newLink, true );
             req3.timeout = 10000
