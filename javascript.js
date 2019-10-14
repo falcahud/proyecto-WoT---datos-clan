@@ -487,7 +487,6 @@ function menu(valor){
         
     }
     if (menu_act == 2){
-        console.log('menu 2')
         for (i=0;i<5;i++){
             let index = "chk"+i
             let lupaIndex = "lupa"+i
@@ -499,7 +498,6 @@ function menu(valor){
         }
     }
     if (menu_act == 3){
-        console.log('menu 3')
         for (i=0;i<5;i++){
             let index = "chk"+i
             let lupaIndex = "lupa"+i
@@ -513,7 +511,6 @@ function menu(valor){
 
     }
     if (menu_act == 4){
-        console.log('menu 4')
         document.getElementById('noexiste').innerHTML = ''
         for (i=0;i<5;i++){
             let index = "chk"+i
